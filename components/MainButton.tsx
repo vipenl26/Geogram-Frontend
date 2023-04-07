@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, StyleProp, ViewStyle, Dimensions } from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons'
 import {Animated} from 'react-native';
-function MainButton() {
+import { StackEnum } from '../stacks/StackEnum';
+function MainButton(props:{currentStack: StackEnum, setCurrentStack: React.Dispatch<React.SetStateAction<StackEnum>>}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const opacity = useState(new Animated.Value(0))[0]
 
@@ -28,6 +29,10 @@ function MainButton() {
   }
 
   const switchMenu = () => {
+    if (props.currentStack !== StackEnum.HomeStack) {
+      props.setCurrentStack(StackEnum.HomeStack)
+      return
+    }
     if (isMenuOpen) {
       menufadeOut()
     }
@@ -36,32 +41,37 @@ function MainButton() {
     }
   }
 
+  const changeStack = (stackName:StackEnum) => {
+    switchMenu()
+    props.setCurrentStack(stackName)
+  }
+
   return (
-    <View>
+    <View style = {styles.MainButtonContainer}>
       <IndividualButton style = {styles.HomeExitButton} onPress = {()=>switchMenu()}>
-        {!isMenuOpen && <MaterialIcons name = "menu" size={30}/>}
-        {isMenuOpen && <MaterialIcons name = "close" size={30}/>}
+        {!isMenuOpen && props.currentStack === StackEnum.HomeStack ?
+         <MaterialIcons name = "menu" size={30}/> : <MaterialIcons name = "close" size={30}/>}
       </IndividualButton>
 
 
 
       {isMenuOpen &&
       <Animated.View style={[{opacity: opacity}]}>
-        <IndividualButton style = {styles.ChatButton}>
+        <IndividualButton style = {styles.ChatButton} onPress={() => changeStack(StackEnum.ChatStack)}>
           <MaterialIcons name = "chat" size={30}/>
         </IndividualButton>
       </Animated.View>}
 
       {isMenuOpen &&
       <Animated.View style={[{opacity: opacity}]}>
-        <IndividualButton style = {styles.ProfileButton}>
+        <IndividualButton style = {styles.ProfileButton} onPress={() => changeStack(StackEnum.ProfileStack)}>
           <MaterialIcons name = "person" size={30}/>
         </IndividualButton>
       </Animated.View>}
 
       {isMenuOpen &&
       <Animated.View style={[{opacity: opacity}]}>
-        <IndividualButton style = {styles.SettingButton}>
+        <IndividualButton style = {styles.SettingButton} onPress={() => changeStack(StackEnum.SettingsStack)}>
           <MaterialIcons name = "settings" size={30}/>
         </IndividualButton>
       </Animated.View>}
@@ -88,6 +98,9 @@ function IndividualButton(props: {children: React.ReactNode, style: StyleProp<Vi
 }
 
 const styles = StyleSheet.create({
+  MainButtonContainer: {
+    position: 'absolute',
+  },
   IndividualButton: {
         width: 50,
         height: 50,
