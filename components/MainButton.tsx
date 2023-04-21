@@ -48,10 +48,12 @@ function MainButton(props:{currentStack: StackEnum, setCurrentStack: React.Dispa
 
   return (
     <View style = {styles.MainButtonContainer}>
+
+      {props.currentStack !== StackEnum.LoadingStack && 
       <IndividualButton style = {styles.HomeExitButton} onPress = {()=>switchMenu()}>
         {!isMenuOpen && props.currentStack === StackEnum.HomeStack ?
          <MaterialIcons name = "menu" size={30}/> : <MaterialIcons name = "close" size={30}/>}
-      </IndividualButton>
+      </IndividualButton>}
 
 
 

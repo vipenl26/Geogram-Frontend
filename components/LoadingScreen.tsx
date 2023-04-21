@@ -24,15 +24,16 @@ const LoadingScreen =  () => {
           )
         ]),
         {
-          iterations: 3
+          iterations: 10
         }
       ).start()
 
     
     
     return (
-        <Animated.View style={{transform: [{rotate: spin}] }}>
-            <View style = {styles.pokemonBallContainer}>
+        <View style = {styles.pokemonBallContainer}>
+            <Animated.View style={{transform: [{rotate: spin}]}}>
+            
                 <View style = {styles.pokemonBallRedHalf}>
 
                 </View>
@@ -45,13 +46,14 @@ const LoadingScreen =  () => {
 
                     </View>
                 </View>
-            </View>
-        </Animated.View>
+            </Animated.View>
+        </View>
     )}
 
 
 const styles = StyleSheet.create({
     pokemonBallContainer: {
+        position: 'absolute',
         backgroundColor: 'white',
         justifyContent: 'center',
         alignContent: 'center'
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
         left: 32,
         borderColor: 'black',
         borderWidth: 8,
+        top: 32
     },
     pokemonBallInnerCenter: {
         position: 'relative',

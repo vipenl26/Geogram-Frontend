@@ -3,6 +3,7 @@ export const enum StackEnum {
     HomeStack,
     ChatStack,
     SettingsStack,
-    ProfileStack
+    ProfileStack,
+    LoadingStack
 
 }
