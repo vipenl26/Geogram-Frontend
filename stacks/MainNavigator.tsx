@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import ChatStack from './ChatStack'
@@ -9,20 +8,36 @@ import ProfileStack from './ProfileStack';
 import SettingsStack from './SettingsStack';
 import {StackEnum} from './StackEnum';
 import LoadingScreen from '../components/LoadingScreen';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
 const Tab = createBottomTabNavigator()
 
 
 export default function MainNavigator() {
+    let isLoggedin = false;
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
     const loadingTime = 5000;
     useEffect(() => {
         setTimeout(() => {
-            setCurrentStack(StackEnum.HomeStack)
+            setCurrentStack(isLoggedin ? StackEnum.HomeStack: StackEnum.LoginStack)
         }, loadingTime)
     }, [])
+    const onLogin = (username: string, password: string) => {
+        console.log(username, password)
+    }
+    const onSignupButton = () => {
+        setCurrentStack(StackEnum.SignupStack)
+    }
+    const onSignup = (username: string, password: string, fullName: string) => {
 
+    }
+    const onLoginButton = () => {
+        setCurrentStack(StackEnum.LoginStack)
+    }
     return (
         <View style = {styles.container}>
+            {currentStack === StackEnum.LoginStack && <Login onLogin={onLogin} onSignup={onSignupButton}/>}
+            {currentStack === StackEnum.SignupStack && <Signup onSignup={onSignup} onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack/>}
             {currentStack === StackEnum.ChatStack && <ChatStack/>}
