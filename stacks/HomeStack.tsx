@@ -1,11 +1,10 @@
 import {StyleSheet, View, Text} from 'react-native'
+import HomePage from '../components/Homepage';
 
-export default function HomeStack() {
+export default function HomeStack(props : any) {
     return (
         <View style = {styles.container}>
-            <Text>
-                HomeStack
-            </Text>
+            <HomePage radius={props.radius} changeRadius = {props.changeRadius}/>
         </View>
     )
 }

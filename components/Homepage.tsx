@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import MainButton from './MainButton';
+import MapScreen from './MapScreen';
 
 
-const HomePage = () => (
+const HomePage = (props : any) => (
   <View>
-    <MainButton/>
+    {/* <MainButton/> */}
+    <MapScreen radius={props.radius} changeRadius={props.changeRadius}/>
   </View>
 );
 

@@ -17,6 +17,16 @@ export default function MainNavigator() {
     let isLoggedin = false;
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
     const loadingTime = 5000;
+    const [username , setUserName] = useState("llzero04")
+    const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
+    const [messages , setMessages] = useState([[{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"}]])
+    const [radius , setRadius] = useState(4);
+
+    function changeRadius(rad : any)
+    {
+        setRadius(rad)
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setCurrentStack(isLoggedin ? StackEnum.HomeStack: StackEnum.LoginStack)
@@ -39,7 +49,7 @@ export default function MainNavigator() {
             {currentStack === StackEnum.LoginStack && <Login onLogin={onLogin} onSignup={onSignupButton}/>}
             {currentStack === StackEnum.SignupStack && <Signup onSignup={onSignup} onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
-            {currentStack === StackEnum.HomeStack && <HomeStack/>}
+            {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack/>}
