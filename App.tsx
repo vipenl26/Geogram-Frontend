@@ -1,24 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import HomePage from './components/Homepage';
-import TabNavigator from './stacks/MainNavigator';
+import MainNavigator from './stacks/MainNavigator';
 import MapScreen from './components/MapScreen';
 export default function App() {
   return (
-    <TabNavigator/>
-    // <View>
-    // <MapScreen radius={4} changeRadius={() => 4}/>
-    // </View>
+    <>
+      <MainNavigator/>
+    </>
   )
-  return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" /> */}
-
-      {/* <HomePage/> */}
-      <TabNavigator/>
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({

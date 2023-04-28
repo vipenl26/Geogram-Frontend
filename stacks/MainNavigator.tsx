@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator()
 
 export default function MainNavigator() {
     let isLoggedin = false;
-    const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
+    const [currentStack, setCurrentStack] = useState(StackEnum.HomeStack)
     const loadingTime = 5000;
     const [username , setUserName] = useState("llzero04")
     const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
@@ -45,7 +45,7 @@ export default function MainNavigator() {
         setCurrentStack(StackEnum.LoginStack)
     }
     return (
-        <View style = {styles.container}>
+        <>
             {currentStack === StackEnum.LoginStack && <Login onLogin={onLogin} onSignup={onSignupButton}/>}
             {currentStack === StackEnum.SignupStack && <Signup onSignup={onSignup} onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
@@ -55,7 +55,7 @@ export default function MainNavigator() {
             {currentStack === StackEnum.SettingsStack && <SettingsStack/>}
             <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>
             
-        </View>
+        </>
     )
 }
 

@@ -102,6 +102,8 @@ function IndividualButton(props: {children: React.ReactNode, style: StyleProp<Vi
 const styles = StyleSheet.create({
   MainButtonContainer: {
     position: 'absolute',
+    left: Dimensions.get('window').width * 0.5,
+    top: Dimensions.get('window').height * 0.5
   },
   IndividualButton: {
         width: 50,
