@@ -10,6 +10,8 @@ import {StackEnum} from './StackEnum';
 import LoadingScreen from '../components/LoadingScreen';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
+// @ts-ignore
+import {BACKEND_URL} from "@env"
 const Tab = createBottomTabNavigator()
 
 
@@ -27,7 +29,6 @@ export default function MainNavigator() {
     {
         setRadius(rad)
     }
-
     useEffect(() => {
         setTimeout(() => {
             setCurrentStack(isLoggedin ? StackEnum.HomeStack: StackEnum.LoginStack)
@@ -35,6 +36,10 @@ export default function MainNavigator() {
     }, [])
     const onLogin = (username: string, password: string) => {
         console.log(username, password)
+    }
+
+    const logout = () => {
+        setCurrentStack(StackEnum.LoginStack)
     }
     const onSignupButton = () => {
         setCurrentStack(StackEnum.SignupStack)
