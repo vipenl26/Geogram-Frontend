@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator()
 
 export default function MainNavigator() {
     let isLoggedin = false;
-    const [currentStack, setCurrentStack] = useState(StackEnum.HomeStack)
+    const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
     const loadingTime = 5000;
     const [username , setUserName] = useState("llzero04")
     const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])

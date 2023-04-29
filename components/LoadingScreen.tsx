@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Dimensions } from 'react-native';
 const LoadingScreen =  () => {
     let spinValue = new Animated.Value(0);
 
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
     pokemonBallContainer: {
         position: 'absolute',
         backgroundColor: 'white',
-        justifyContent: 'center',
-        alignContent: 'center'
+        left: Dimensions.get('window').width * 0.35,
+        top: Dimensions.get('window').height * 0.4,
     },
     pokemonBallRedHalf: {
         position: 'relative',
