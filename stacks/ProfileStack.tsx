@@ -1,11 +1,27 @@
-import {StyleSheet, View, Text} from 'react-native'
-
+import {StyleSheet, View, Text, Button} from 'react-native'
+import {useEffect , useState} from 'react'
 import { Image } from 'expo-image';
 import ProfileElements from '../components/ProfileElements';
 
 export default function ProfileStack(props : any) {
     const url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-    const userIDText = "User ID"
+    const userIDText = "User ID";
+    const [friendFlag , setFriendFlag] = useState(0);
+    useEffect(()=>{
+        // Get the user's info
+
+        // Checking if he is the current user or not
+        for(let i = 0 ; i < props.friends.length ; i++){
+            if(props.username.localeCompare(props.friends[i]) == 0){
+                setFriendFlag(1);
+            }
+        }
+    })
+
+    function sendFriendRequest(id : any){
+        //
+    }
+
     return (
         <View style = {styles.container}>
             <View style={styles.profilePageHeader}>
@@ -15,6 +31,8 @@ export default function ProfileStack(props : any) {
                     contentFit="cover"
                 />
                 <Text style={styles.profileName}>{props.username}</Text>
+                <Text style={{marginLeft : "auto"}}>{" "}</Text>
+                {friendFlag == 1 && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
             </View>
 
             <ProfileElements keytext={"Bio"} value ={props.userBio}/>
