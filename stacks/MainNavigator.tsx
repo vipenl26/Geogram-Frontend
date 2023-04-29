@@ -11,14 +11,18 @@ import LoadingScreen from '../components/LoadingScreen';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 // @ts-ignore
-import {BACKEND_URL} from "@env"
+import { gql,useQuery } from "@apollo/client";
+import SmallLoading from '../components/SmallLoadingScreen';
+import MessageBox from '../components/MessageBox';
 const Tab = createBottomTabNavigator()
 
 
 export default function MainNavigator() {
     let isLoggedin = false;
+    const [accessToken, setAccessToken] = useState("")
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
-    const loadingTime = 5000;
+    const [messageBox, setMessageBox] = useState("")
+    const loadingTime = 0;
     const [username , setUserName] = useState("llzero04")
     const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
     const [radius , setRadius] = useState(4);
@@ -31,16 +35,18 @@ export default function MainNavigator() {
     }
     useEffect(() => {
         setTimeout(() => {
-            setCurrentStack(isLoggedin ? StackEnum.HomeStack: StackEnum.LoginStack)
+            setCurrentStack(accessToken != "" ? StackEnum.HomeStack: StackEnum.LoginStack)
         }, loadingTime)
     }, [])
-    const onLogin = (username: string, password: string) => {
-        console.log(username, password)
-    }
+    useEffect(() => {
+        if (accessToken == "") {
+            setCurrentStack(StackEnum.LoginStack)
+        }
+        else {
+            setCurrentStack(StackEnum.HomeStack)
+        }
+    }, [accessToken])
 
-    const logout = () => {
-        setCurrentStack(StackEnum.LoginStack)
-    }
     const onSignupButton = () => {
         setCurrentStack(StackEnum.SignupStack)
     }
@@ -50,15 +56,21 @@ export default function MainNavigator() {
     const onLoginButton = () => {
         setCurrentStack(StackEnum.LoginStack)
     }
+    const showMessageBox = (data: string) => {
+        setMessageBox(data)
+    }
     return (
         <>
-            {currentStack === StackEnum.LoginStack && <Login onLogin={onLogin} onSignup={onSignupButton}/>}
+            <MessageBox message={messageBox} setMessageBox={setMessageBox}/>
+            {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken} showMessageBox={(s)=>showMessageBox(s)}/>}
             {currentStack === StackEnum.SignupStack && <Signup onSignup={onSignup} onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack username={username} uid = {uid} userBio={userBio} friends={friends}/>}
-            {currentStack === StackEnum.SettingsStack && <SettingsStack/>}
+            {currentStack === StackEnum.ChatStack && <ChatStack/>}
+            {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
+            {currentStack === StackEnum.SettingsStack && <SettingsStack setAccessToken = {setAccessToken}/>}
             <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>
             
         </>
