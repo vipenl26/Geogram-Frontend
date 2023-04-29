@@ -16,7 +16,7 @@ export default function ProfileStack(props : any) {
                 setFriendFlag(1);
             }
         }
-    })
+    } , [])
 
     function sendFriendRequest(id : any){
         //
