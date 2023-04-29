@@ -78,11 +78,24 @@ const MapScreen = function(props)
     
     //         let loc = await Location.getCurrentPositionAsync({});
     //         setLocation(loc);
-    //         })();
-    // } , 2000)
+    // } , 2000)})
+
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         (async () => {
+    //             let { status } = await Location.requestForegroundPermissionsAsync();
+    //             if (status !== 'granted') {
+    //                 setErrorMsg('Permission to access location was denied');
+    //                 return;
+    //             }
+        
+    //             let loc = await Location.getCurrentPositionAsync({});
+    //             setLocation(loc);
+    //     } , 2000)})
+    // })
 
     useEffect(() => {
-        setTimeout(() => {
+        setInterval(() => {
         (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -92,7 +105,7 @@ const MapScreen = function(props)
 
         let loc = await Location.getCurrentPositionAsync({});
         setLocation(loc);
-        })();} , 5000)
+        })();} , 10000)
 
         // Get other users locations and profiles from backend
     }, []);
@@ -185,7 +198,7 @@ const styles = StyleSheet.create({
     },
     map : {
         width: '100%',
-        height: '95%'
+        height: '90%'
     },
     profileView : {
         position : "absolute",

@@ -21,6 +21,8 @@ export default function MainNavigator() {
     const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
     const [messages , setMessages] = useState([[{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"}]])
     const [radius , setRadius] = useState(4);
+    const [uid , setUID] = useState(0);
+    const [userBio , setUserBio] = useState("User Bio");
 
     function changeRadius(rad : any)
     {
@@ -51,7 +53,7 @@ export default function MainNavigator() {
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack/>}
-            {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
+            {currentStack === StackEnum.ProfileStack && <ProfileStack username={username} uid = {uid} userBio={userBio}/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack/>}
             <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>
             
