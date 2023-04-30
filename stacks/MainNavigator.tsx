@@ -18,7 +18,7 @@ export default function MainNavigator() {
     const [currentStack, setCurrentStack] = useState(StackEnum.HomeStack)
     const loadingTime = 5000;
     const [username , setUserName] = useState("llzero04")
-    const [friends , setFriends] = useState([{name : "ZERO" , key : 0} , {name : "llzero04" , key : 1}])
+    const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
     const [radius , setRadius] = useState(4);
     const [uid , setUID] = useState(0);
     const [userBio , setUserBio] = useState("User Bio");

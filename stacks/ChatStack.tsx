@@ -10,7 +10,7 @@ import ChatMessagesScreen from '../components/ChatMessagesScreen'
 // const Stack = createNativeStackNavigator();
 
 export default function ChatStack(props : any) {
-    const [messages , setMessages] = useState([[] , [{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"}]])
+    const [messages , setMessages] = useState([[{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"},{sender : 0 , msg : "Hi ZERO"} , {sender : 1 , msg : "Hi llzero04"}]])
     const [selectedFriend , setSelectedFriend] = useState(-1);
 
     useEffect(() => {

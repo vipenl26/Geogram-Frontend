@@ -18,7 +18,7 @@ const ChatFriendsScreen = function(props)
                             style = {styles.displayPicture}
                             source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                             contentFit="cover"
-                            transition={1000}
+                            // transition={1000}
                             placeholder={blurhash}
                         />
                         <Text>{item.name}</Text>
