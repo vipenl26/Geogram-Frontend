@@ -66,7 +66,7 @@ function MainButton(props:{currentStack: StackEnum, setCurrentStack: React.Dispa
 
       {isMenuOpen &&
       <Animated.View style={[{opacity: opacity}]}>
-        <IndividualButton style = {styles.ProfileButton} onPress={() => changeStack(StackEnum.ProfileStack)}>
+        <IndividualButton style = {styles.ProfileButton} onPress={() => changeStack(StackEnum.FriendsStack)}>
           <MaterialIcons name = "people" size={30}/>
         </IndividualButton>
       </Animated.View>}

@@ -10,11 +10,11 @@ import {StackEnum} from './StackEnum';
 import LoadingScreen from '../components/LoadingScreen';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
-// @ts-ignore
 import { gql,useQuery } from "@apollo/client";
 import SmallLoading from '../components/SmallLoadingScreen';
 import MessageBox from '../components/MessageBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FriendsStack from './FriendsStack';
 const Tab = createBottomTabNavigator()
 
 
@@ -39,7 +39,7 @@ export default function MainNavigator() {
         .then((token) => {
             setAccessToken(token == null ? "": token)
             setTimeout(() => {
-                setCurrentStack(token != "" ? StackEnum.HomeStack: StackEnum.LoginStack)
+                setCurrentStack(token != null ? StackEnum.HomeStack: StackEnum.LoginStack)
             }, loadingTime)
         })
     }, [])
@@ -74,7 +74,7 @@ export default function MainNavigator() {
             {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack username={username} uid = {uid} userBio={userBio} friends={friends}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack/>}
-            {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
+            {currentStack === StackEnum.FriendsStack && <FriendsStack/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack logout = {logout}/>}
             {accessToken != "" && <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>}
             
