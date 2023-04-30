@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import { gql, useApolloClient } from "@apollo/client";
 import SmallLoading from './SmallLoadingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 interface LoginProps {
   onSignup: () => void;
   setAccessToken: (accessToken: string) => void
@@ -35,6 +36,7 @@ const Login: React.FC<LoginProps> = ({setAccessToken, onSignup }) => {
     })    
     if (result.data.signIn.accessToken != null) {
       setAccessToken(result.data.signIn.accessToken)
+      AsyncStorage.setItem('accessToken', result.data.signIn.accessToken)
     }
     if (result.data.signIn.showMessage) {
       alert(result.data.signIn.message)

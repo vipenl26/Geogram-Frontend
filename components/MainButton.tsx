@@ -67,7 +67,7 @@ function MainButton(props:{currentStack: StackEnum, setCurrentStack: React.Dispa
       {isMenuOpen &&
       <Animated.View style={[{opacity: opacity}]}>
         <IndividualButton style = {styles.ProfileButton} onPress={() => changeStack(StackEnum.ProfileStack)}>
-          <MaterialIcons name = "person" size={30}/>
+          <MaterialIcons name = "people" size={30}/>
         </IndividualButton>
       </Animated.View>}
 
@@ -75,6 +75,13 @@ function MainButton(props:{currentStack: StackEnum, setCurrentStack: React.Dispa
       <Animated.View style={[{opacity: opacity}]}>
         <IndividualButton style = {styles.SettingButton} onPress={() => changeStack(StackEnum.SettingsStack)}>
           <MaterialIcons name = "settings" size={30}/>
+        </IndividualButton>
+      </Animated.View>}
+
+      {isMenuOpen &&
+      <Animated.View style={[{opacity: opacity}]}>
+        <IndividualButton style = {styles.FriendsButton} onPress={() => changeStack(StackEnum.ProfileStack)}>
+          <MaterialIcons name = "person" size={30}/>
         </IndividualButton>
       </Animated.View>}
 
@@ -137,6 +144,12 @@ const styles = StyleSheet.create({
       position: 'absolute',
       left: Dimensions.get('window').width * -0.05,
       top: Dimensions.get('window').height * 0.2
+    },
+
+    FriendsButton : {
+      position: 'absolute',
+      left: Dimensions.get('window').width * -0.05,
+      top: Dimensions.get('window').height * 0.1
     }
 
 

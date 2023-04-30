@@ -14,6 +14,7 @@ import Signup from '../components/Signup';
 import { gql,useQuery } from "@apollo/client";
 import SmallLoading from '../components/SmallLoadingScreen';
 import MessageBox from '../components/MessageBox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Tab = createBottomTabNavigator()
 
 
@@ -34,9 +35,13 @@ export default function MainNavigator() {
         setRadius(rad)
     }
     useEffect(() => {
-        setTimeout(() => {
-            setCurrentStack(accessToken != "" ? StackEnum.HomeStack: StackEnum.LoginStack)
-        }, loadingTime)
+        AsyncStorage.getItem('accessToken')
+        .then((token) => {
+            setAccessToken(token == null ? "": token)
+            setTimeout(() => {
+                setCurrentStack(token != "" ? StackEnum.HomeStack: StackEnum.LoginStack)
+            }, loadingTime)
+        })
     }, [])
     useEffect(() => {
         if (accessToken == "") {
@@ -50,9 +55,6 @@ export default function MainNavigator() {
     const onSignupButton = () => {
         setCurrentStack(StackEnum.SignupStack)
     }
-    const onSignup = (username: string, password: string, fullName: string) => {
-
-    }
     const onLoginButton = () => {
         setCurrentStack(StackEnum.LoginStack)
     }
@@ -61,6 +63,7 @@ export default function MainNavigator() {
     }
     const logout = () => {
         setAccessToken("")
+        AsyncStorage.removeItem('accessToken')
     }
     return (
         <>

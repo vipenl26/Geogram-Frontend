@@ -9,7 +9,7 @@ const SettingsStack: React.FC<SettingsProps> = ({logout})=> {
                 Settings Stack
             </Text>
             <Button
-                onPress={() => {logout}}
+                onPress={logout}
                 title="log out"
                 color="#841584"
                 accessibilityLabel="Learn more about this purple button"

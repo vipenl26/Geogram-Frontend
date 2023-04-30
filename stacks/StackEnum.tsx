@@ -6,6 +6,7 @@ export const enum StackEnum {
     ProfileStack,
     LoadingStack,
     LoginStack,
-    SignupStack
+    SignupStack, 
+    FriendsStack
 
 }
