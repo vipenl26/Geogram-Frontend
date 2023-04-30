@@ -41,10 +41,16 @@ const ChatMessagesScreen = function(props)
         props.switchFriend(e , -1)
       }
 
+    const url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
     return(
         <View style = {styles.messagesScreen}>
             <View style = {header}>
-                <Pressable onPress = {(e) => {goBackToFriendScreen(e)}}><Text style = {styles.backButtonbackButton}>{backButtonText}</Text></Pressable>
+                {/* <Pressable onPress = {(e) => {goBackToFriendScreen(e)}}><Text style = {styles.backButtonbackButton}>{backButtonText}</Text></Pressable> */}
+                <Image 
+                    style={styles.profileImage}
+                    source={url}
+                    contentFit="cover"
+                />
                 <Text style = {styles.textheader}>{props.friends[props.selectedFriend].name}</Text>
             </View>
             <FlatList 
@@ -73,6 +79,12 @@ const styles = StyleSheet.create({
     
     messagesScreen : {
         flex : 1
+    },
+    profileImage : {
+        width : 50,
+        height : 50,
+        borderRadius : 10,
+        margin : 10
     },
     header : {
         display : "flex",
