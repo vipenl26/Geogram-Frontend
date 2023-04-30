@@ -4,33 +4,31 @@ import { Image } from 'expo-image';
 import ProfileElements from '../components/ProfileElements';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileScreen from '../components/ProfileScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function ProfileStack(props : any) {
-    // const url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-    // const userIDText = "User ID";
-    // const [friendFlag , setFriendFlag] = useState(0);
-    // useEffect(()=>{
-    //     // Get the user's info
+const Stack = createNativeStackNavigator();
 
-    //     // Checking if he is the current friend or not
-    //     if(props.rootuser.localeCompare(props.username) == 0) setFriendFlag(1);
-    //     else{
-    //         for(let i = 0 ; i < props.friends.length ; i++){
-    //             if(props.username.localeCompare(props.friends[i]) == 0){
-    //                 setFriendFlag(1);
-    //             }
-    //         }
-    //     }
-    // } , [])
+function ProfileStack() {
 
-    // function sendFriendRequest(id : any){
-    //     //
-    // }
+const ProfileWithProps = () => (<ProfileScreen  rootuser = "rootuser" username="" uid = "uid" userBio="userBio" gender = "gender" friends={true} fullname="full name"/>)
+  return (
+    <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="My Profile"
+        component={ProfileWithProps}
+        options={({navigation})=>({
+          headerTitle: () => <Text style={styles.title}>My Profile</Text>,
+        })}
+      />
 
-    return (
-        <ProfileScreen  rootuser = {props.username} username={props.username} uid = {props.uid} userBio={props.userBio} gender = {props.gender} friends={props.friends} fullname={props.fullname}/>
-    )
+    </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+export default ProfileStack
 
 const styles = StyleSheet.create({
     container: {
@@ -56,5 +54,9 @@ const styles = StyleSheet.create({
         height : 50,
         borderRadius : 10,
         margin : 10
-    }
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+      },
   });

@@ -23,7 +23,7 @@ interface FriendsListProps {
 
 const FriendsPage: React.FC<FriendsListProps> = ({ navigation }) => {
   const renderFriend = ({ item }: { item: Friend }) => (
-    <TouchableOpacity style={styles.friendItem} onPress={() => navigation.navigate('Friend Profile', { friend: item })}>
+    <TouchableOpacity style={styles.friendItem} onPress={() => navigation.push('Friend Profile', {username: "username", rootuser: "rootuser", uid:"uid", userBio:"userbio",gender: "gender", friends: "friends", fullname: "fullname"})}>
       <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
       <View style={styles.friendInfo}>
         <Text style={styles.name}>{item.name}</Text>

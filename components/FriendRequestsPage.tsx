@@ -13,14 +13,21 @@ const friendRequestsPage: FriendRequest[] = [
   { id: '3', name: 'Chris', status: 'rejected' },
 ];
 
-const FriendRequestsPage: React.FC = () => {
+interface FriendRequestsPageProps {
+  navigation: any;
+}
+
+
+const FriendRequestsPage: React.FC<FriendRequestsPageProps> = ({ navigation }) => {
   const renderRequest = ({ item }: { item: FriendRequest }) => (
     <View style={styles.request}>
-      <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
-      <View style={styles.requestInfo}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.status}>{item.status}</Text>
-      </View>
+      <TouchableOpacity style={styles.profileButton} onPress={() => navigation.push('Friend Profile', {username: "username", rootuser: "rootuser", uid:"uid", userBio:"userbio",gender: "gender", friends: "friends", fullname: "fullname"})}>
+        <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
+        <View style={styles.requestInfo}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.status}>{item.status}</Text>
+        </View>
+      </TouchableOpacity>
       <View style={styles.actions}>
         <TouchableOpacity style={styles.acceptButton}>
           <Text style={styles.buttonText}>Accept</Text>
@@ -49,6 +56,10 @@ const FriendRequestsPage: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  profileButton: {
+    flex: 1,
+    flexDirection: 'row'
+  },
   container: {
     flex: 1,
     backgroundColor: '#f2f2f2',
@@ -77,8 +88,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileIcon: {
-    width: 50,
-    height: 50,
+    flex: 1,
+    width: 80,
+    height: 80,
     borderRadius: 25,
     marginRight: 10,
   },

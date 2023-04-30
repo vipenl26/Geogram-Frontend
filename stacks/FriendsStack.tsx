@@ -7,23 +7,8 @@ import {createAppContainer} from 'react-navigation'
 import { useNavigation, NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
-// const screens = {
-//   FriendsPage: {
-//     screen: FriendsPage,
-//     navigationOptions: {
-//       title: "Friends",
-//     }
-//   },
-//   FriendRequestsPage: {
-//     screen: FriendRequestsPage,
-//     navigationOptions: {
-//       title: "Friend Requests",
-//     }
-//   }
-// }
+import ProfileScreen from '../components/ProfileScreen';
 
-
-// const FriendsStack = createStackNavigator(screens)
 const Stack = createNativeStackNavigator();
 function FriendsStack() {
   return (
@@ -44,8 +29,16 @@ function FriendsStack() {
       <Stack.Screen
         name="Friend Requests"
         component={FriendRequestsPage}
-        options={{
+        options={({navigation})=>({
           headerTitle: () => <Text style={styles.title}>Friend Requests</Text>
+        })}
+      />
+
+      <Stack.Screen
+        name="Friend Profile"
+        component={ProfileScreen}
+        options={{
+          headerTitle: () => <Text style={styles.title}>Friend Profile</Text>
         }}
       />
 
