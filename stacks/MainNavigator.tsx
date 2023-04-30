@@ -19,8 +19,8 @@ const Tab = createBottomTabNavigator()
 
 
 export default function MainNavigator() {
-    let isLoggedin = false;
-    const [accessToken, setAccessToken] = useState("")
+    let isLoggedin = true;
+    const [accessToken, setAccessToken] = useState("somethin")
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
     const [messageBox, setMessageBox] = useState("")
     const loadingTime = 0;
@@ -29,6 +29,7 @@ export default function MainNavigator() {
     const [radius , setRadius] = useState(4);
     const [uid , setUID] = useState(0);
     const [userBio , setUserBio] = useState("User Bio");
+    const [gender , setGender] = useState("Male")
 
     function changeRadius(rad : any)
     {
@@ -67,16 +68,15 @@ export default function MainNavigator() {
     }
     return (
         <>
-            {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}
+            {/* {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}
             {currentStack === StackEnum.SignupStack && <Signup onLoginNavigation={onLoginButton}/>}
-            {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
-            {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
-            {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
-            {currentStack === StackEnum.ProfileStack && <ProfileStack username={username} uid = {uid} userBio={userBio} friends={friends}/>}
-            {currentStack === StackEnum.ChatStack && <ChatStack/>}
+            {currentStack === StackEnum.LoadingStack && <LoadingScreen/>} */}
+            {true && <HomeStack radius={radius} changeRadius={changeRadius}/>}
+            {/* {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
+            {currentStack === StackEnum.ProfileStack && <ProfileStack rootuser = {username} username={username} uid = {uid} userBio={userBio} gender = {gender} friends={friends}/>}
             {currentStack === StackEnum.FriendsStack && <FriendsStack/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack logout = {logout}/>}
-            {accessToken != "" && <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>}
+            {accessToken != "" && <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>} */}
             
         </>
     )

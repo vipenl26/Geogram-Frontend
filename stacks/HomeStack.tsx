@@ -4,7 +4,7 @@ import MapScreen from '../components/MapScreen';
 export default function HomeStack(props : any) {
     return (
         <>
-            {/* <MapScreen radius={props.radius} changeRadius={props.changeRadius}/> */}
+            <MapScreen radius={props.radius} changeRadius={props.changeRadius}/>
         </>
     )
 }

@@ -7,7 +7,7 @@ import MapScreen from './MapScreen';
 const HomePage = (props : any) => (
   <View>
     {/* <MainButton/> */}
-    <MapScreen radius={props.radius} changeRadius={props.changeRadius}/>
+    {/* <MapScreen radius={props.radius} changeRadius={props.changeRadius}/> */}
   </View>
 );
 

@@ -94,6 +94,22 @@ const MapScreen = function(props)
     //     } , 2000)})
     // })
 
+    // useEffect(() => {
+    //     setInterval(() => {
+    //     (async () => {
+    //     let { status } = await Location.requestForegroundPermissionsAsync();
+    //     if (status !== 'granted') {
+    //         setErrorMsg('Permission to access location was denied');
+    //         return;
+    //     }
+
+    //     let loc = await Location.getCurrentPositionAsync({});
+    //     setLocation(loc);
+    //     })();} , 10000)
+
+    //     // Get other users locations and profiles from backend
+    // }, []);
+
     useEffect(() => {
         setInterval(() => {
         (async () => {
@@ -104,7 +120,12 @@ const MapScreen = function(props)
         }
 
         let loc = await Location.getCurrentPositionAsync({});
-        setLocation(loc);
+        setPingLocation(loc);
+        if(location === null) setLocation(loc);
+        else if(Math.abs(location["coords"]["latitude"] - pingLocation["coords"]["latitude"]) > 0.1 || Math.abs(location["coords"]["longitude"] - pingLocation["coords"]["longitude"]) > 0.1)
+        {
+            setLocation(loc);
+        }
         })();} , 10000)
 
         // Get other users locations and profiles from backend

@@ -10,10 +10,13 @@ export default function ProfileStack(props : any) {
     useEffect(()=>{
         // Get the user's info
 
-        // Checking if he is the current user or not
-        for(let i = 0 ; i < props.friends.length ; i++){
-            if(props.username.localeCompare(props.friends[i]) == 0){
-                setFriendFlag(1);
+        // Checking if he is the current friend or not
+        if(props.rootuser.localeCompare(props.username) == 0) setFriendFlag(1);
+        else{
+            for(let i = 0 ; i < props.friends.length ; i++){
+                if(props.username.localeCompare(props.friends[i]) == 0){
+                    setFriendFlag(1);
+                }
             }
         }
     } , [])
@@ -32,11 +35,12 @@ export default function ProfileStack(props : any) {
                 />
                 <Text style={styles.profileName}>{props.username}</Text>
                 <Text style={{marginLeft : "auto"}}>{" "}</Text>
-                {friendFlag == 1 && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
+                {friendFlag == 0 && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
             </View>
 
-            <ProfileElements keytext={"Bio"} value ={props.userBio}/>
+            {/* <ProfileElements keytext={"Bio"} value ={props.userBio}/> */}
             <ProfileElements keytext={userIDText} value ={props.uid}/>
+            <ProfileElements keytext={"Gender"} value ={props.gender}/>
         </View>
     )
 }
