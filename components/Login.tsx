@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
-import { useLazyQuery, gql, useApolloClient } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import SmallLoading from './SmallLoadingScreen';
 interface LoginProps {
   onSignup: () => void;
   setAccessToken: (accessToken: string) => void
-  showMessageBox: (data: string) => void
 }
 const login_query = gql`
 query($username: String!, $password: String!) {
@@ -18,13 +17,17 @@ query($username: String!, $password: String!) {
 `
 
 
-const Login: React.FC<LoginProps> = ({setAccessToken, showMessageBox, onSignup }) => {
+const Login: React.FC<LoginProps> = ({setAccessToken, onSignup }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isloading, setIsloading] = useState(false)
   const client = useApolloClient()
 
   const handleLogin = async() => {
+    if (username == "" || password == "") {
+      alert("username or password field is empty")
+      return
+    }
     setIsloading(true)
     const result = await client.query({
       query: login_query, 
@@ -34,7 +37,7 @@ const Login: React.FC<LoginProps> = ({setAccessToken, showMessageBox, onSignup }
       setAccessToken(result.data.signIn.accessToken)
     }
     if (result.data.signIn.showMessage) {
-      showMessageBox(result.data.signIn.message)
+      alert(result.data.signIn.message)
     }
     setIsloading(false)
     
@@ -47,7 +50,7 @@ const Login: React.FC<LoginProps> = ({setAccessToken, showMessageBox, onSignup }
 
   return (
     <View style={styles.container}>
-      {isloading && <SmallLoading message='loading...'/>}
+      <SmallLoading isVisible={isloading} />
       <TextInput
         style={styles.input}
         placeholder="Username"

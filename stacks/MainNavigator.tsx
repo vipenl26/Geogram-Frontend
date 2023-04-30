@@ -59,19 +59,21 @@ export default function MainNavigator() {
     const showMessageBox = (data: string) => {
         setMessageBox(data)
     }
+    const logout = () => {
+        setAccessToken("")
+    }
     return (
         <>
-            <MessageBox message={messageBox} setMessageBox={setMessageBox}/>
-            {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken} showMessageBox={(s)=>showMessageBox(s)}/>}
-            {currentStack === StackEnum.SignupStack && <Signup onSignup={onSignup} onLoginNavigation={onLoginButton}/>}
+            {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}
+            {currentStack === StackEnum.SignupStack && <Signup onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack username={username} uid = {uid} userBio={userBio} friends={friends}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
-            {currentStack === StackEnum.SettingsStack && <SettingsStack setAccessToken = {setAccessToken}/>}
-            <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>
+            {currentStack === StackEnum.SettingsStack && <SettingsStack logout = {logout}/>}
+            {accessToken != "" && <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>}
             
         </>
     )

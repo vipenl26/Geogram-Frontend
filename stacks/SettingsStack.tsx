@@ -1,15 +1,15 @@
 import {StyleSheet, View, Text, Button} from 'react-native'
 interface SettingsProps {
-    setAccessToken: (accessToken: string) => void
+    logout: () => void
 }
-const SettingsStack: React.FC<SettingsProps> = ({setAccessToken})=> {
+const SettingsStack: React.FC<SettingsProps> = ({logout})=> {
     return (
         <View style = {styles.container}>
             <Text>
                 Settings Stack
             </Text>
             <Button
-                onPress={() => {setAccessToken("")}}
+                onPress={() => {logout}}
                 title="log out"
                 color="#841584"
                 accessibilityLabel="Learn more about this purple button"

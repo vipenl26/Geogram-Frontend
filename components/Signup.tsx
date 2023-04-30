@@ -1,27 +1,53 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
-
+import { gql, useApolloClient } from "@apollo/client";
+import SmallLoading from './SmallLoadingScreen';
 interface SignupProps {
-  onSignup: (username: string, password: string, fullName: string) => void;
   onLoginNavigation: () => void;
 }
-
-const Signup: React.FC<SignupProps> = ({ onSignup, onLoginNavigation }) => {
+const signup_mutation = gql`
+  mutation($username: String!, $password: String!){
+    createNewUser(username: $username, password: $password){
+    message
+    showMessage
+  }
+  }
+`
+const Signup: React.FC<SignupProps> = ({onLoginNavigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-
-  const handleSignup = () => {
+  const [isloading, setIsloading] = useState(false)
+  const client = useApolloClient()
+  const handleSignup = async() => {
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
+      alert('Passwords do not match!')
+      return
     }
-    onSignup(username, password, fullName);
+    if (username == "" || password == "") {
+      alert("username or password field is empty")
+      return
+    }
+    setIsloading(true)
+    const response = await client.mutate({
+      mutation: signup_mutation,
+      variables : {username: username, password: password}
+    })
+    setIsloading(false)
+
+    if (response.errors) {
+      alert('error check console')
+      console.log(response.errors)
+    }
+
+    if(response.data.createNewUser.showMessage) {
+      alert(response.data.createNewUser.message)
+    }
   };
 
   return (
     <View style={styles.container}>
+      <SmallLoading isVisible={isloading}/>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -41,12 +67,6 @@ const Signup: React.FC<SignupProps> = ({ onSignup, onLoginNavigation }) => {
         secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Full Name"
-        value={fullName}
-        onChangeText={setFullName}
       />
       <Button title="Signup" onPress={handleSignup} />
       <View style={styles.loginTextContainer}>
