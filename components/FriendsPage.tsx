@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { gql, useQuery } from '@apollo/client';
+import SmallLoading from './SmallLoadingScreen';
+import SessionTimeoutBox from './SessionTimeoutBox';
 
 interface Friend {
   id: string;
@@ -20,18 +23,40 @@ const friends: Friend[] = [
 interface FriendsListProps {
   navigation: any;
 }
-
+const get_all_friends_query = gql`
+query {
+	getAllFriends(limit: 100, offset: 0){
+    id
+		username
+	}
+}
+`
 const FriendsPage: React.FC<FriendsListProps> = ({ navigation }) => {
-  const renderFriend = ({ item }: { item: Friend }) => (
-    <TouchableOpacity style={styles.friendItem} onPress={() => navigation.push('Friend Profile', {username: "username", rootuser: "rootuser", uid:"uid", userBio:"userbio",gender: "gender", friends: "friends", fullname: "fullname"})}>
+
+  const {data, loading, error} = useQuery(get_all_friends_query)
+
+  if (error) {
+      if(error.toString().includes('401')) {
+          return <SessionTimeoutBox/>
+      }
+      alert("error! check console")
+      console.log(error)
+  }
+  if (loading) {
+      return <SmallLoading/>
+  }
+  const friends = data.getAllFriends
+  const renderFriend = ({item}: {item: any}) => { 
+    return (
+    <TouchableOpacity style={styles.friendItem} onPress={() => navigation.push('Friend Profile', {id: item.id})}>
       <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
       <View style={styles.friendInfo}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.status}>{item.status}</Text>
+        <Text style={styles.name}>{item.username}</Text>
+        {/* <Text style={styles.status}>{item.status}</Text> */}
       </View>
       <Ionicons name="ios-arrow-forward" size={24} color="#ccc" />
     </TouchableOpacity>
-  );
+  )};
 
   return (
     <View style={styles.container}>

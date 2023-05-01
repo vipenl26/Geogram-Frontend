@@ -1,38 +1,122 @@
-import React from 'react';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
+import React, {useState} from 'react';
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import SmallLoading from './SmallLoadingScreen';
+import SessionTimeoutBox from './SessionTimeoutBox';
 
 interface FriendRequest {
   id: string;
   name: string;
-  status: string;
 }
 
 const friendRequestsPage: FriendRequest[] = [
-  { id: '1', name: 'Mary', status: 'pending' },
-  { id: '2', name: 'Mike', status: 'accepted' },
-  { id: '3', name: 'Chris', status: 'rejected' },
+  { id: '1', name: 'Mary'},
+  { id: '2', name: 'Mike' },
+  { id: '3', name: 'Chris' },
 ];
 
 interface FriendRequestsPageProps {
   navigation: any;
 }
+const get_all_requests_query = gql`
+query {
+	getAllFriendRequests(limit: 100, offset:0) {
+    username, id
+  }
+}
+`
+const accept_friend_requet_mutation = gql`
+mutation($id: String) {
+	acceptFriendRequest(id: $id) {message, showMessage}
+}
+`
 
+const reject_friend_requet_mutation = gql`
+mutation($id: String) {
+	rejectFriendRequest(id: $id) {message, showMessage}
+}
+`
 
 const FriendRequestsPage: React.FC<FriendRequestsPageProps> = ({ navigation }) => {
-  const renderRequest = ({ item }: { item: FriendRequest }) => (
+  const {loading, data, error} = useQuery(get_all_requests_query)
+  const client = useApolloClient()
+  const [isloading, setIsloading] = useState(false)
+  if (loading) {
+    return <SmallLoading/>
+  }
+  if (error) {
+      if(error.toString().includes('401')) {
+          return <SessionTimeoutBox/>
+      }
+      alert("error! check console")
+      console.log(error)
+  }
+
+  const acceptFriendRequest = async(id :any) => {
+
+    try {
+      setIsloading(true)
+      const response = await client.mutate({
+        mutation: accept_friend_requet_mutation, 
+        variables: {id: id}
+      })
+
+      if (response.errors){
+        alert("error!, checkout console")
+        console.log(response.errors)
+      }
+
+      if (response.data.acceptFriendRequest.showMessage) {
+        alert(response.data.acceptFriendRequest.message)
+      }
+
+      setIsloading(false)
+    }
+    catch(e) {
+
+    }
+    
+  }
+
+  const rejectFriendRequest = async(id: any) => {
+    try {
+      setIsloading(true)
+      const response = await client.mutate({
+        mutation: reject_friend_requet_mutation, 
+        variables: {id: id}
+      })
+
+      if (response.errors){
+        alert("error!, checkout console")
+        console.log(response.errors)
+      }
+
+      if (response.data.acceptFriendRequest.showMessage) {
+        alert(response.data.acceptFriendRequest.message)
+      }
+
+      setIsloading(false)
+    }
+    catch(e) {
+      
+    }
+  }
+
+  const renderRequest = ({ item }: { item: any }) => (
     <View style={styles.request}>
-      <TouchableOpacity style={styles.profileButton} onPress={() => navigation.push('Friend Profile', {username: "username", rootuser: "rootuser", uid:"uid", userBio:"userbio",gender: "gender", friends: "friends", fullname: "fullname"})}>
+      {loading && <SmallLoading/>}
+      <TouchableOpacity style={styles.profileButton} onPress={() => navigation.push('Friend Profile', {id: item.id})}>
         <Image source={require('../assets/profile.png')} style={styles.profileIcon} />
         <View style={styles.requestInfo}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.status}>{item.status}</Text>
+          <Text style={styles.name}>{item.username}</Text>
+          <Text style={styles.status}>{"pending"}</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.acceptButton}>
+        <TouchableOpacity style={styles.acceptButton} onPress={() => acceptFriendRequest(item.id)}>
           <Text style={styles.buttonText}>Accept</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rejectButton}>
+        <TouchableOpacity style={styles.rejectButton} onPress={() => rejectFriendRequest(item.id)}>
           <Text style={styles.buttonText}>Reject</Text>
         </TouchableOpacity>
       </View>
@@ -41,11 +125,8 @@ const FriendRequestsPage: React.FC<FriendRequestsPageProps> = ({ navigation }) =
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Text style={styles.headerText}>Friend Requests</Text>
-      </View> */}
       <FlatList
-        data={friendRequestsPage}
+        data={data.getAllFriendRequests}
         renderItem={renderRequest}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}

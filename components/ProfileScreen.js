@@ -10,7 +10,7 @@ import SessionTimeoutBox from './SessionTimeoutBox'
 
 const get_profile_query = gql`
     query($id: String){
-        getProfile(id: $id){bio, gender, fullName, username}
+        getProfile(id: $id){bio, gender, fullName, username, isFriend, isPending}
     }
 
 `
@@ -19,7 +19,7 @@ const ProfileScreen = function(superprops)
     let userid = null
     let isMyProfile = false
     if (superprops.route) {
-        userid = superprops.route.params.userid
+        userid = superprops.route.params.id
     }
     else {
         userid = superprops.id
@@ -30,7 +30,9 @@ const ProfileScreen = function(superprops)
     })
 
     
-
+    if (loading) {
+        return <SmallLoading/>
+    }
     if (error) {
         if(error.toString().includes('401')) {
             return <SessionTimeoutBox/>
@@ -38,16 +40,13 @@ const ProfileScreen = function(superprops)
         alert("error! check console")
         console.log(error)
     }
-    if (loading) {
-        return <SmallLoading/>
-    }
+    
 
     const props = data.getProfile
-    console.log(props)
     return(
         <View style = {styles.container}>
-            {userid != null && <FriendIndicator isFriend={false} isPending={true}/>}
-            <ProfileHeader username={props.username} showAddFriendButton={userid != null}/>
+            {userid != null && <FriendIndicator isFriend={props.isFriend} isPending={props.isPending}/>}
+            <ProfileHeader username={props.username} showAddFriendButton={!props.isFriend} userid={userid}/>
             <ProfileElements keytext={"Gender"} value ={props.gender}/>
             <ProfileElements keytext={"Bio"} value ={props.bio}/>
             <ProfileElements keytext={"Full Name"} value ={props.fullName}/>        

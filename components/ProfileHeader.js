@@ -1,25 +1,82 @@
 import {StyleSheet, View, Text, Button} from 'react-native'
 import {useEffect , useState} from 'react'
 import { Image } from 'expo-image'
+import SmallLoading from './SmallLoadingScreen'
+import { useApolloClient, gql } from '@apollo/client'
 
+const send_friend_request_mutation = gql`
+mutation($id: String) {
+	sendFriendRequest(id: $id) {
+		message
+        showMessage
+	}
+}
+`
+
+const unfriend_mutation = gql`
+mutation($id: String) {
+	unfriend(id: $id) {
+		message
+        showMessage
+	}
+}
+
+`
 const ProfileHeader = function(props)
 {
-    const url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+    const [isloading, setIsloading] = useState(false)
+    const client = useApolloClient()
+    async function sendFriendRequest(){
+        try{
+            setIsloading(true)
+            const response = await client.mutate({
+                mutation: send_friend_request_mutation,
+                variables: {id: props.userid}
+            })
+            setIsloading(false)
+            if (response.error) {
+                alert("error!, check console")
+            }
+            if (response.data.sendFriendRequest.showMessage) {
+                alert(response.data.sendFriendRequest.message)
+            }
+        }
+        catch(e) {
 
-    function sendFriendRequest(id){
-        //
+        }
+    }
+    async function unfriend() {
+        try {
+            setIsloading(true)
+            const response = await client.mutate({
+                mutation: unfriend_mutation, 
+                variables: {id: props.userid}
+            })
+            setIsloading(false)
+            if (response.error) {
+                alert("error!, check console")
+            }
+            if (response.unfriend.showMessage) {
+                alert(response.message)
+            }
+        }
+        catch(e){
+
+        }
     }
 
     return(
         <View style={styles.profilePageHeader}>
+            {isloading && <SmallLoading/>}
             <Image 
                 style={styles.profileImage}
-                source={url}
+                source={require('../assets/profile.png')}
                 contentFit="cover"
             />
             <Text style={styles.profileName}>{props.username}</Text>
             <Text style={{marginLeft : "auto"}}>{" "}</Text>
-            {props.showAddFriendButton && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
+            {props.userid!=null && props.showAddFriendButton && <Button title="Add Friend" onPress={() => sendFriendRequest()}></Button>}
+            {props.userid!=null && !props.showAddFriendButton && <Button title="Unfriend" color="#ff9966" onPress={() => unfriend()}></Button>}
         </View>
     )
 }

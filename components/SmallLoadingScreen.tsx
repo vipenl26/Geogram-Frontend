@@ -6,11 +6,14 @@ import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from 'react-nat
 
 interface LoadingProps {
   message?: string
-  isVisible: boolean
+  isVisible?: boolean
 }
 const SmallLoading: React.FC<LoadingProps>  = ({ message, isVisible }) => {
   if (message == null) {
     message = "loading..."
+  }
+  if (isVisible == null) {
+    isVisible = true
   }
   return (
     <View>
