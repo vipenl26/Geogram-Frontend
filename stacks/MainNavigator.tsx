@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, SetStateAction, Dispatch } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import ChatStack from './ChatStack'
@@ -16,11 +16,14 @@ import MessageBox from '../components/MessageBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FriendsStack from './FriendsStack';
 const Tab = createBottomTabNavigator()
-
-
-export default function MainNavigator() {
+interface MainNavigatorProps {
+    accessToken: String
+    setAccessToken: Dispatch<SetStateAction<string>>
+}
+export const AppContext = createContext({})
+const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken}) => {
     let isLoggedin = true;
-    const [accessToken, setAccessToken] = useState("")
+    
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
     const [messageBox, setMessageBox] = useState("")
     const loadingTime = 0;
@@ -69,21 +72,21 @@ export default function MainNavigator() {
         AsyncStorage.removeItem('accessToken')
     }
     return (
-        <>
+        <AppContext.Provider value={logout}>
             {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}
             {currentStack === StackEnum.SignupStack && <Signup onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
             {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
-            {currentStack === StackEnum.ProfileStack && <ProfileStack rootuser = {username} username={username} uid = {uid} userBio={userBio} gender = {gender} friends={friends} fullname = {fullname}/>}
+            {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
             {currentStack === StackEnum.FriendsStack && <FriendsStack/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack logout = {logout}/>}
             {accessToken != "" && <MainButton currentStack = {currentStack} setCurrentStack = {setCurrentStack}/>}
             
-        </>
+        </AppContext.Provider>
     )
 }
-
+export default MainNavigator
 
 const styles = StyleSheet.create({
     container: {

@@ -6,11 +6,10 @@ import { ActivityIndicator, Dimensions, StyleSheet, Text, TouchableOpacity, View
 
 interface LoadingProps {
   message?: string;
-  setMessageBox?: (s: string) => void
+  onclickEvent?: () => void
 }
-const MessageBox: React.FC<LoadingProps>  = ({ message, setMessageBox }) => {
+const MessageBox: React.FC<LoadingProps>  = ({ message, onclickEvent }) => {
   const [visible, setVisible] = useState(true);
-  
   useEffect(() => {
     if (message == "") {
       setVisible(false)
@@ -26,7 +25,7 @@ const MessageBox: React.FC<LoadingProps>  = ({ message, setMessageBox }) => {
       <View style={styles.container}>
       <View style={styles.box}>
         <Text style={styles.message}>{message}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => setVisible(false)}>
+        <TouchableOpacity style={styles.button} onPress={() => onclickEvent ?  onclickEvent() : () => {}}>
           <Text style={styles.buttonText}>OK</Text>
         </TouchableOpacity>
       </View>

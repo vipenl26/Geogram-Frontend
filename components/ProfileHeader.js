@@ -5,20 +5,6 @@ import { Image } from 'expo-image'
 const ProfileHeader = function(props)
 {
     const url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-    const [friendFlag , setFriendFlag] = useState(0);
-    useEffect(()=>{
-        // Get the user's info
-
-        // Checking if he is the current friend or not
-        if(props.rootuser.localeCompare(props.username) == 0) setFriendFlag(1);
-        else{
-            for(let i = 0 ; i < props.friends.length ; i++){
-                if(props.username.localeCompare(props.friends[i]) == 0){
-                    setFriendFlag(1);
-                }
-            }
-        }
-    } , [])
 
     function sendFriendRequest(id){
         //
@@ -33,7 +19,7 @@ const ProfileHeader = function(props)
             />
             <Text style={styles.profileName}>{props.username}</Text>
             <Text style={{marginLeft : "auto"}}>{" "}</Text>
-            {friendFlag == 0 && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
+            {props.showAddFriendButton && <Button title="Add Friend" onPress={(e) => sendFriendRequest(e)}></Button>}
         </View>
     )
 }

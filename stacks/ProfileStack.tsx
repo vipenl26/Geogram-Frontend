@@ -11,8 +11,9 @@ const Stack = createNativeStackNavigator();
 
 function ProfileStack() {
 
-const ProfileWithProps = () => (<ProfileScreen  rootuser = "rootuser" username="" uid = "uid" userBio="userBio" gender = "gender" friends={true} fullname="full name"/>)
-  return (
+const ProfileWithProps = () => (<ProfileScreen/>)
+  
+return (
     <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen
