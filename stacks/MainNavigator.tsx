@@ -29,16 +29,8 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
     const loadingTime = 0;
     const [username , setUserName] = useState("llzero04")
     const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
-    const [radius , setRadius] = useState(4);
-    const [uid , setUID] = useState(0);
-    const [userBio , setUserBio] = useState("User Bio");
-    const [gender , setGender] = useState("Male")
-    const [fullname , setFullName] = useState("Full name")
+    
 
-    function changeRadius(rad : any)
-    {
-        setRadius(rad)
-    }
     useEffect(() => {
         AsyncStorage.getItem('accessToken')
         .then((token) => {
@@ -76,7 +68,7 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
             {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}
             {currentStack === StackEnum.SignupStack && <Signup onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
-            {currentStack === StackEnum.HomeStack && <HomeStack radius={radius} changeRadius={changeRadius}/>}
+            {currentStack === StackEnum.HomeStack && <HomeStack/>}
             {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
             {currentStack === StackEnum.FriendsStack && <FriendsStack/>}
