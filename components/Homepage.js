@@ -48,6 +48,9 @@ const HomePage = (props) =>{
       })
       if (response.errors) {
         alert("error!, check console")
+        if(errors.toString().includes('401')) {
+          return <SessionTimeoutBox/>
+        }
         console.error(response.errors)
       }
       const ls = []

@@ -1,5 +1,5 @@
 import MessageBox from "./MessageBox"
-import { AppContext } from "../stacks/MainNavigator"
+import AppContext from "./AppContext"
 const SessionTimeoutBox = () => {
     return (
         <AppContext.Consumer>

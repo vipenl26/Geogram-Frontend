@@ -15,12 +15,13 @@ import SmallLoading from '../components/SmallLoadingScreen';
 import MessageBox from '../components/MessageBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FriendsStack from './FriendsStack';
+import AppContext  from '../components/AppContext';
 const Tab = createBottomTabNavigator()
 interface MainNavigatorProps {
     accessToken: String
     setAccessToken: Dispatch<SetStateAction<string>>
 }
-export const AppContext = createContext({})
+
 const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken}) => {
     let isLoggedin = true;
     

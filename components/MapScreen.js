@@ -119,7 +119,7 @@ const [isloading, setIsloading] = useState(false)
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
-        //   onPress={navigation.push("Profile Page", {id: userLocation.id})}   
+          onPress={()=> { if(navigation.getId() != "Profile Page")navigation.push("Profile Page", {id: userLocation.id})}}   
           pinColor="red"
         />
           );
