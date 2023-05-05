@@ -30,18 +30,29 @@ const Login: React.FC<LoginProps> = ({setAccessToken, onSignup }) => {
       return
     }
     setIsloading(true)
+    try {
     const result = await client.query({
       query: login_query, 
       variables : {username: username, password: password}
-    })    
+    })
+    if (result.errors) {
+      console.log(result.errors)
+      alert("error occured, check console")
+      return
+    }    
     if (result.data.signIn.accessToken != null) {
       setAccessToken(result.data.signIn.accessToken)
       AsyncStorage.setItem('accessToken', result.data.signIn.accessToken)
     }
     if (result.data.signIn.showMessage) {
       alert(result.data.signIn.message)
+    }}
+    catch(e) {
+      console.log(e)
     }
+    finally{
     setIsloading(false)
+    }
     
   };
 

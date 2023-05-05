@@ -12,7 +12,7 @@ import MapView, { Marker, Circle } from "react-native-maps";
 import { Image } from "expo-image";
 
 import * as Location from "expo-location";
-import {UPDATE_LOCATION_TIME_INTERVAL} from "@env"
+const UPDATE_LOCATION_TIME_INTERVAL = process.env.REACT_APP_UPDATE_LOCATION_TIME_INTERVAL
 import SmallLoading from "./SmallLoadingScreen";
 import { useNavigation } from "@react-navigation/native";
 

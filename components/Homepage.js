@@ -4,7 +4,7 @@ import MainButton from './MainButton';
 import MapScreen from './MapScreen';
 import { gql, useApolloClient } from '@apollo/client';
 //@ts-ignore
-import {UPDATE_LOCATION_TIME_INTERVAL} from "@env"
+const UPDATE_LOCATION_TIME_INTERVAL = process.env.REACT_APP_UPDATE_LOCATION_TIME_INTERVAL
 const discover_people_query = gql`
 query{
 	discoverPeople{

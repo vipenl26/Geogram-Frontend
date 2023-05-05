@@ -8,9 +8,7 @@ import { AppRegistry } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, DefaultOptions } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-
-//@ts-ignore
-import {BACKEND_URL} from "@env"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const defaultOptions: DefaultOptions = {
   watchQuery: {

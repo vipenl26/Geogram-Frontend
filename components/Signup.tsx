@@ -29,20 +29,28 @@ const Signup: React.FC<SignupProps> = ({onLoginNavigation }) => {
       return
     }
     setIsloading(true)
-    const response = await client.mutate({
-      mutation: signup_mutation,
-      variables : {username: username, password: password}
-    })
-    setIsloading(false)
-
-    if (response.errors) {
-      alert('error check console')
-      console.log(response.errors)
+    try {
+      const response = await client.mutate({
+        mutation: signup_mutation,
+        variables : {username: username, password: password}
+      })
+      if (response.errors) {
+        alert('error check console')
+        console.log(response.errors)
+      }
+  
+      if(response.data.createNewUser.showMessage) {
+        alert(response.data.createNewUser.message)
+      }
+    }
+    catch(e) {
+      console.log(e)
+    }
+    finally{
+      setIsloading(false)
     }
 
-    if(response.data.createNewUser.showMessage) {
-      alert(response.data.createNewUser.message)
-    }
+    
   };
 
   return (

@@ -30,15 +30,15 @@ const ProfileScreen = function(superprops)
     })
 
     
-    if (loading) {
-        return <SmallLoading/>
-    }
     if (error) {
-        if(error.toString().includes('401')) {
+        if(error.toString().includes('401') || true) {
             return <SessionTimeoutBox/>
         }
         alert("error! check console")
         console.log(error)
+    }
+    if (loading) {
+        return <SmallLoading/>
     }
     
 
