@@ -83,6 +83,7 @@ const [isloading, setIsloading] = useState(false)
         <Picker.Item label="5" value={5} />
         <Picker.Item label="6" value={6} />
         <Picker.Item label="7" value={7} />
+        <Picker.Item label="30" value={30} />
       </Picker>
 
       <MapView
