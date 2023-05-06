@@ -83,6 +83,9 @@ const HomePage = (props) =>{
       })
 
       if (response.errors) {
+        if(errors.toString().includes('401')) {
+          return <SessionTimeoutBox/>
+        }
         alert("error!, check console")
         console.error(response.errors)
       }
