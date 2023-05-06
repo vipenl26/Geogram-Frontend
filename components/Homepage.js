@@ -104,7 +104,7 @@ const HomePage = (props) =>{
 
   useEffect(() => {
     discover_people()
-    setInterval(discover_people, Number(UPDATE_LOCATION_TIME_INTERVAL))
+    setInterval(discover_people, Number(process.env.REACT_APP_UPDATE_LOCATION_TIME_INTERVAL))
   }, [])
 
   const setLocation = (x) => {

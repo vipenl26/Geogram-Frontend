@@ -56,7 +56,7 @@ const [isloading, setIsloading] = useState(false)
     setIsloading(true)
     updateMyLocation()
     setIsloading(false)
-    setInterval(updateMyLocation, Number(UPDATE_LOCATION_TIME_INTERVAL))
+    setInterval(updateMyLocation, Number(process.env.REACT_APP_UPDATE_LOCATION_TIME_INTERVAL))
   }, []);
 
   let text = "Waiting..";

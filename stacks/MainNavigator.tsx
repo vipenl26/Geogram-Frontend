@@ -20,9 +20,10 @@ const Tab = createBottomTabNavigator()
 interface MainNavigatorProps {
     accessToken: String
     setAccessToken: Dispatch<SetStateAction<string>>
+    logout: ()=>void
 }
 
-const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken}) => {
+const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken, logout}) => {
     let isLoggedin = true;
     
     const [currentStack, setCurrentStack] = useState(StackEnum.LoadingStack)
@@ -35,7 +36,6 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
     useEffect(() => {
         AsyncStorage.getItem('accessToken')
         .then((token) => {
-            token="Something"
             setAccessToken(token == null ? "": token)
             setTimeout(() => {
                 setCurrentStack(token != null ? StackEnum.HomeStack: StackEnum.LoginStack)
@@ -60,10 +60,7 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
     const showMessageBox = (data: string) => {
         setMessageBox(data)
     }
-    const logout = () => {
-        setAccessToken("")
-        AsyncStorage.removeItem('accessToken')
-    }
+    
     return (
         <AppContext.Provider value={logout}>
             {currentStack === StackEnum.LoginStack && <Login onSignup={onSignupButton} setAccessToken = {setAccessToken}/>}

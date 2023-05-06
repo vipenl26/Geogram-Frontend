@@ -5,10 +5,13 @@ import HomePage from './components/Homepage';
 import MainNavigator from './stacks/MainNavigator';
 import MapScreen from './components/MapScreen';
 import { AppRegistry } from 'react-native';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, DefaultOptions } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, DefaultOptions, from, operationName } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { onError } from "@apollo/client/link/error";
+import { RetryLink } from "@apollo/client/link/retry";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -21,7 +24,7 @@ const defaultOptions: DefaultOptions = {
   },
 }
 const httpLink = createHttpLink({
-  uri: BACKEND_URL,
+  uri: process.env.REACT_APP_BACKEND_URL,
 });
 
 
@@ -38,18 +41,28 @@ export default function App() {
     }
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (networkError || graphQLErrors) {
+      logout()
+    }
+  });
+
+
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: from([errorLink, authLink, httpLink]),
     cache: new InMemoryCache(), 
     defaultOptions: defaultOptions
   });
 
-
+  const logout = () => {
+    setAccessToken("")
+    AsyncStorage.removeItem('accessToken')
+  }
 
   
   return (
     <ApolloProvider client={client}>
-        <MainNavigator accessToken={accessToken} setAccessToken={setAccessToken}/>
+        <MainNavigator accessToken={accessToken} setAccessToken={setAccessToken} logout={logout}/>
     </ApolloProvider>
   )
 }
