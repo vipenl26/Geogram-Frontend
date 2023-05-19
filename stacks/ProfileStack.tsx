@@ -1,12 +1,13 @@
-import {StyleSheet, View, Text, Button} from 'react-native'
-import {useEffect , useState} from 'react'
+import {StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native'
+import React, {useEffect , useState} from 'react'
 import { Image } from 'expo-image';
 import ProfileElements from '../components/ProfileElements';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileScreen from '../components/ProfileScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { AntDesign } from '@expo/vector-icons';
+import EditProfilePage from '../components/EditProfilePage';
 const Stack = createNativeStackNavigator();
 
 function ProfileStack() {
@@ -21,6 +22,18 @@ return (
         component={ProfileWithProps}
         options={({navigation})=>({
           headerTitle: () => <Text style={styles.title}>My Profile</Text>,
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Edit Profile')}>
+              <AntDesign name="edit" size={24} color="black" />
+           </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Edit Profile"
+        component={EditProfilePage}
+        options={({navigation})=>({
+          headerTitle: () => <Text style={styles.title}>Edit Profile</Text>,
         })}
       />
 
