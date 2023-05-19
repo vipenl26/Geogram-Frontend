@@ -11,7 +11,7 @@ import { onError } from "@apollo/client/link/error";
 import { RetryLink } from "@apollo/client/link/retry";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
+//```npx react-native start --reset-cache``` is to reset cache with updates the env variables
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const defaultOptions: DefaultOptions = {
   watchQuery: {
