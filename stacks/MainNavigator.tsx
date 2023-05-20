@@ -30,7 +30,6 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
     const [messageBox, setMessageBox] = useState("")
     const loadingTime = 0;
     const [username , setUserName] = useState("llzero04")
-    const [friends , setFriends] = useState([{name : "ZERO" , key : 0}])
     
 
     useEffect(() => {
@@ -67,7 +66,7 @@ const MainNavigator:React.FC<MainNavigatorProps> = ({accessToken, setAccessToken
             {currentStack === StackEnum.SignupStack && <Signup onLoginNavigation={onLoginButton}/>}
             {currentStack === StackEnum.LoadingStack && <LoadingScreen/>}
             {currentStack === StackEnum.HomeStack && <HomeStack/>}
-            {currentStack === StackEnum.ChatStack && <ChatStack friends = {friends}/>}
+            {currentStack === StackEnum.ChatStack && <ChatStack/>}
             {currentStack === StackEnum.ProfileStack && <ProfileStack/>}
             {currentStack === StackEnum.FriendsStack && <FriendsStack/>}
             {currentStack === StackEnum.SettingsStack && <SettingsStack logout = {logout}/>}

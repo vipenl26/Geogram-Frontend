@@ -68,7 +68,7 @@ const EditProfilePage = () => {
         onChangeText={text => setFullName(text)}
       />
       
-      <Button title="Save Profile" onPress={handleSaveProfile} />
+      <Button title="Save Profile" onPress={handleSaveProfile} color={'orange'} />
     </View>
   );
 };
