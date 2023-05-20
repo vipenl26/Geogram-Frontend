@@ -1,56 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, FlatList, TextInput, TouchableOpacity, Image, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons'; 
-interface Message {
-  id: string;
-  text: string;
-  sender: string;
+import { gql, useApolloClient } from '@apollo/client';
+const get_converstaion_query = gql`
+query($id: String!){
+	getConversation(receiverUserId: $id, limit: 100, offset:0, after: 0) {
+		messageid
+		messagedata
+		incoming
+		
+	}
 }
+`
+const send_message_mutation = gql`
+mutation($id: String, $messagedata: String, $messagetimestamp: String){
+  sendMessage(messagedata: $messagedata, receiverUserId: $id, messagetimestamp: $messagetimestamp)
+}
+`
 
-const initialMessages: Message[] = [
-  { id: '1', text: 'Hello!', sender: 'John' },
-  { id: '2', text: 'Hi there!', sender: 'Jane' },
-];
 
-const ChatScreen = (superprops: any) => {
-  if (!('route' in superprops && 'params' in superprops.route && 'params' in superprops.route)) {
-    return (<></>)
-  }
-  
-  const [messages, setMessages] = useState(initialMessages);
+const ChatScreen = (superprops) => {
+  const flatListRef = useRef(null);
+  const id = superprops.route.params.id
+
+  const client = useApolloClient()
+
+  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
 
+  const updateMessages = (setMessages) => {
+    const result = client.query({
+      query: get_converstaion_query,
+      variables : {id: id}
+    }).then((data) => {
+      setMessages(data.data.getConversation)
+    })
+    
+  }
+  const scrollToBottom = () => {
+    if (flatListRef.current == null)return
+    flatListRef.current.scrollToEnd({ animated: true });
+  };
+  useEffect(() => {
+    updateMessages(setMessages)
+    setInterval(() => {
+      // scrollToBottom()
+      updateMessages(setMessages)
+    }, 2);
+  }, [])
+
   const handleSend = () => {
+    const result = client.mutate({
+      mutation: send_message_mutation,
+      variables: {id: id, messagetimestamp: new Date().toISOString().slice(0, 19).replace('T', ' '), messagedata: inputText}
+    })
     if (inputText.trim()) {
-      const newMessage: Message = {
-        id: `${messages.length + 1}`,
-        text: inputText.trim(),
-        sender: 'You',
+      const newMessage = {
+        incoming: false,
+        messagedata: inputText, 
       };
-      setMessages((prevMessages) => [newMessage, ...prevMessages]);
+      // setMessages((prevMessages) => [newMessage, ...prevMessages]);
       setInputText('');
     }
   };
 
-  const renderMessage = ({ item }: { item: Message }) => (
+  const renderMessage = (item) => {
+    return (
     <View style={styles.messageContainer}>
       <View
         style={[
           styles.message,
-          item.sender === 'Jane' ? styles.sentMessage : styles.receivedMessage,
+          !item.item.incoming ? styles.sentMessage : styles.receivedMessage,
         ]}
       >
-        <Text style={styles.messageText}>{item.text}</Text>
+        <Text style={styles.messageText}>{item.item.messagedata}</Text>
       </View>
     </View>
-  );
+  )};
+
   
   return (
     <View style={styles.container}>
       <FlatList
-        data={messages}
+         ref={flatListRef}
+        data={[...messages].reverse()}
         renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => Math.random()}
         contentContainerStyle={styles.messagesContainer}
         inverted
       />
