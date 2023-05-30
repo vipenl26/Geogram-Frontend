@@ -132,7 +132,7 @@ const [isloading, setIsloading] = useState(false)
             latitude: location == null ? 0 : location["coords"]["latitude"],
             longitude: location == null ? 180 : location["coords"]["longitude"],
           }}
-          radius={radius * 300}
+          radius={radius * 1000}
           strokeWidth={1}
           strokeColor="red"
           fillColor="transparent"
